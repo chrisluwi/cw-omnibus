@@ -8,7 +8,7 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
@@ -16,16 +16,10 @@ package com.commonsware.android.documents.consumer;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.Fragment;
-import android.content.ContentResolver;
 import android.content.Intent;
-import android.database.Cursor;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.DocumentsContract;
-import android.provider.OpenableColumns;
-import android.support.v4.provider.DocumentFile;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,7 +31,6 @@ import android.widget.TextView;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
-import java.io.File;
 
 public class ConsumerFragment extends Fragment {
   private static final int REQUEST_OPEN=1337;
@@ -60,7 +53,7 @@ public class ConsumerFragment extends Fragment {
         (ScrollView)inflater.inflate(R.layout.activity_main, container,
                                      false);
 
-    transcript=(TextView)scroll.findViewById(R.id.transcript);
+    transcript=scroll.findViewById(R.id.transcript);
 
     return(scroll);
   }

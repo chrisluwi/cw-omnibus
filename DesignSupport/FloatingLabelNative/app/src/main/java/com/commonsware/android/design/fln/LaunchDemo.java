@@ -8,7 +8,7 @@
  * OF ANY KIND, either express or implied. See the License for the specific
  * language governing permissions and limitations under the License.
  * <p/>
- * From _The Busy Coder's Guide to Android Development_
+ * Covered in detail in the book _The Busy Coder's Guide to Android Development_
  * https://commonsware.com/Android
  */
 
@@ -23,8 +23,8 @@ import android.widget.EditText;
 
 public class LaunchDemo extends Activity {
   @Override
-  public void onCreate(Bundle icicle) {
-    super.onCreate(icicle);
+  public void onCreate(Bundle state) {
+    super.onCreate(state);
     setContentView(R.layout.main);
   }
 

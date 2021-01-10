@@ -8,7 +8,7 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
@@ -34,7 +34,7 @@ public class MainActivity extends Activity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
 
-    type=(Spinner)findViewById(R.id.type);
+    type=findViewById(R.id.type);
 
     ArrayAdapter<String> types=
         new ArrayAdapter<String>(this,
@@ -44,7 +44,7 @@ public class MainActivity extends Activity {
     types.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     type.setAdapter(types);
 
-    delay=(SeekBar)findViewById(R.id.delay);
+    delay=findViewById(R.id.delay);
   }
 
   public void notifyMe(View v) {

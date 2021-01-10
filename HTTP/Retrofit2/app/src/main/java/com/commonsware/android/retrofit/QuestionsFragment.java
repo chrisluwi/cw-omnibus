@@ -8,24 +8,24 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
 package com.commonsware.android.retrofit;
 
-import android.app.ListFragment;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ListFragment;
 import android.text.Html;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import org.greenrobot.eventbus.EventBus;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -35,14 +35,21 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class QuestionsFragment extends ListFragment implements
   Callback<SOQuestions> {
+  public interface Contract {
+    void onQuestion(Item question);
+  }
+
   @Override
-  public View onCreateView(LayoutInflater inflater,
-                           ViewGroup container,
-                           Bundle savedInstanceState) {
-    View result=
-        super.onCreateView(inflater, container, savedInstanceState);
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
 
     setRetainInstance(true);
+  }
+
+  @Override
+  public void onViewCreated(@NonNull View view,
+                            @Nullable Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
 
     Retrofit retrofit=
       new Retrofit.Builder()
@@ -53,15 +60,13 @@ public class QuestionsFragment extends ListFragment implements
       retrofit.create(StackOverflowInterface.class);
 
     so.questions("android").enqueue(this);
-
-    return(result);
   }
 
   @Override
   public void onListItemClick(ListView l, View v, int position, long id) {
     Item item=((ItemsAdapter)getListAdapter()).getItem(position);
 
-    EventBus.getDefault().post(new QuestionClickedEvent(item));
+    ((Contract)getActivity()).onQuestion(item);
   }
 
   @Override
@@ -86,7 +91,7 @@ public class QuestionsFragment extends ListFragment implements
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
       View row=super.getView(position, convertView, parent);
-      TextView title=(TextView)row.findViewById(android.R.id.text1);
+      TextView title=row.findViewById(android.R.id.text1);
 
       title.setText(Html.fromHtml(getItem(position).title));
 

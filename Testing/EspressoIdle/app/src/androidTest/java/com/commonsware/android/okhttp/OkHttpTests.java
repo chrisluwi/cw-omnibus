@@ -8,13 +8,14 @@
  OF ANY KIND, either express or implied. See the License for the specific
  language governing permissions and limitations under the License.
 
- From _The Busy Coder's Guide to Android Development_
+ Covered in detail in the book _The Busy Coder's Guide to Android Development_
  https://commonsware.com/Android
  */
 
 package com.commonsware.android.okhttp;
 
 import android.support.test.espresso.Espresso;
+import android.support.test.espresso.IdlingRegistry;
 import android.support.test.espresso.IdlingResource;
 import android.support.test.espresso.NoMatchingViewException;
 import android.support.test.espresso.ViewAssertion;
@@ -65,14 +66,14 @@ public class OkHttpTests {
       OkHttp3IdlingResource.create("okhttp3",
         main.getActivity().getOkHttpClient());
 
-    Espresso.registerIdlingResources(idleWild);
+    IdlingRegistry.getInstance().register(idleWild);
 
     try {
       onView(withId(android.R.id.list))
         .check(new AdapterCountAssertion(100));
     }
     finally {
-      Espresso.unregisterIdlingResources(idleWild);
+      IdlingRegistry.getInstance().unregister(idleWild);
     }
   }
 

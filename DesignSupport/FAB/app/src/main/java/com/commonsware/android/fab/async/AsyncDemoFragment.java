@@ -8,7 +8,7 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
@@ -61,7 +61,7 @@ public class AsyncDemoFragment extends ListFragment implements View.OnClickListe
     getListView().setScrollbarFadingEnabled(false);
     setListAdapter(adapter);
 
-    FloatingActionButton fab=(FloatingActionButton)v.findViewById(R.id.refresh);
+    FloatingActionButton fab=v.findViewById(R.id.refresh);
 
     fab.setOnClickListener(this);
   }

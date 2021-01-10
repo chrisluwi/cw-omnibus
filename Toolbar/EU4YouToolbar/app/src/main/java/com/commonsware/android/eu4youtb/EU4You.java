@@ -8,17 +8,17 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
 package com.commonsware.android.eu4youtb;
 
-import android.app.Activity;
+import android.support.v4.app.FragmentActivity;
 import android.content.Intent;
 import android.os.Bundle;
 
-public class EU4You extends Activity implements
+public class EU4You extends FragmentActivity implements
     CountriesFragment.Contract {
   private CountriesFragment countries=null;
   private DetailsFragment details=null;
@@ -29,21 +29,21 @@ public class EU4You extends Activity implements
     setContentView(R.layout.main);
 
     countries=
-        (CountriesFragment)getFragmentManager().findFragmentById(R.id.countries);
+        (CountriesFragment)getSupportFragmentManager().findFragmentById(R.id.countries);
 
     if (countries == null) {
       countries=new CountriesFragment();
-      getFragmentManager().beginTransaction()
+      getSupportFragmentManager().beginTransaction()
                                  .add(R.id.countries, countries)
                                  .commit();
     }
 
     details=
-        (DetailsFragment)getFragmentManager().findFragmentById(R.id.details);
+        (DetailsFragment)getSupportFragmentManager().findFragmentById(R.id.details);
 
     if (details == null && findViewById(R.id.details) != null) {
       details=new DetailsFragment();
-      getFragmentManager().beginTransaction()
+      getSupportFragmentManager().beginTransaction()
                                  .add(R.id.details, details).commit();
     }
   }

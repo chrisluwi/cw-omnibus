@@ -8,19 +8,21 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
 package com.commonsware.android.eventbus.lbm;
 
 import android.annotation.SuppressLint;
-import android.app.ListFragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ListFragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,10 +42,17 @@ public class EventLogFragment extends ListFragment {
   private EventLogAdapter adapter=null;
 
   @Override
-  public void onActivityCreated(Bundle state) {
-    super.onActivityCreated(state);
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
 
     setRetainInstance(true);
+  }
+
+  @Override
+  public void onViewCreated(@NonNull View view,
+                            @Nullable Bundle savedInstanceState) {
+    super.onViewCreated(view, savedInstanceState);
+
     getListView().setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
 
     if (adapter == null) {
@@ -54,8 +63,8 @@ public class EventLogFragment extends ListFragment {
   }
 
   @Override
-  public void onResume() {
-    super.onResume();
+  public void onStart() {
+    super.onStart();
 
     IntentFilter filter=new IntentFilter(ACTION_EVENT);
 
@@ -64,11 +73,11 @@ public class EventLogFragment extends ListFragment {
   }
 
   @Override
-  public void onPause() {
+  public void onStop() {
     LocalBroadcastManager.getInstance(getActivity())
                          .unregisterReceiver(onEvent);
 
-    super.onPause();
+    super.onStop();
   }
 
   class EventLogAdapter extends ArrayAdapter<Intent> {

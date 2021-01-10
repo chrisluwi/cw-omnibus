@@ -8,7 +8,7 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
 */
 
@@ -29,8 +29,8 @@ public class MainActivity extends RecyclerViewActivity {
           "porttitor", "sodales", "pellentesque", "augue", "purus"};
   
   @Override
-  public void onCreate(Bundle icicle) {
-    super.onCreate(icicle);
+  public void onCreate(Bundle state) {
+    super.onCreate(state);
 
     setLayoutManager(new GridLayoutManager(this, 2));
     setAdapter(new IconicAdapter());

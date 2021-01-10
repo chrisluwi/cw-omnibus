@@ -8,45 +8,47 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
 package com.commonsware.android.databind.basic;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.StrictMode;
-import de.greenrobot.event.EventBus;
+import android.support.v4.app.FragmentActivity;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    if (getFragmentManager().findFragmentById(android.R.id.content) == null) {
-      getFragmentManager().beginTransaction()
+    if (getSupportFragmentManager().findFragmentById(android.R.id.content) == null) {
+      getSupportFragmentManager().beginTransaction()
                           .add(android.R.id.content,
                                new QuestionsFragment()).commit();
     }
   }
 
   @Override
-  public void onResume() {
-    super.onResume();
+  public void onStart() {
+    super.onStart();
     EventBus.getDefault().register(this);
   }
 
   @Override
-  public void onPause() {
+  public void onStop() {
     EventBus.getDefault().unregister(this);
-    super.onPause();
+    super.onStop();
   }
 
-  public void onEventMainThread(QuestionClickedEvent event) {
+  @Subscribe(threadMode =ThreadMode.MAIN)
+  public void onQuestionClicked(QuestionClickedEvent event) {
     startActivity(new Intent(Intent.ACTION_VIEW,
-                             Uri.parse(event.question.link)));
+      Uri.parse(event.question.link)));
   }
 }

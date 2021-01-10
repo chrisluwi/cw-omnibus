@@ -8,7 +8,7 @@
  OF ANY KIND, either express or implied. See the License for the specific
  language governing permissions and limitations under the License.
 
- From _The Busy Coder's Guide to Android Development_
+ Covered in detail in the book _The Busy Coder's Guide to Android Development_
  https://commonsware.com/Android
  */
 
@@ -29,7 +29,7 @@ public class RemoteInputReceiver extends BroadcastReceiver {
 
   static NotificationCompat.Builder buildNotificationBase(Context ctxt) {
     NotificationCompat.Builder builder=
-      new NotificationCompat.Builder(ctxt)
+      new NotificationCompat.Builder(ctxt, MainActivity.CHANNEL_WHATEVER)
         .setSmallIcon(
           android.R.drawable.stat_sys_download_done)
         .setContentTitle(ctxt.getString(R.string.title));

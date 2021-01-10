@@ -8,7 +8,7 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
@@ -33,7 +33,7 @@ public class MainActivity extends Activity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
 
-    pager=(ViewPager)findViewById(R.id.pager);
+    pager=findViewById(R.id.pager);
     pager.setAdapter(new SampleAdapter());
     pager.setOffscreenPageLimit(6);
   }
@@ -47,7 +47,7 @@ public class MainActivity extends Activity {
     public Object instantiateItem(ViewGroup container, int position) {
       View page=
           getLayoutInflater().inflate(R.layout.page, container, false);
-      TextView tv=(TextView)page.findViewById(R.id.text);
+      TextView tv=page.findViewById(R.id.text);
       int blue=position * 25;
 
       final String msg=

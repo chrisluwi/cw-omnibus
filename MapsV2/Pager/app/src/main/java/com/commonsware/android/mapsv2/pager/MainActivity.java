@@ -8,7 +8,7 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
@@ -26,13 +26,13 @@ public class MainActivity extends AbstractMapActivity {
     if (readyToGo()) {
       setContentView(R.layout.activity_main);
 
-      ViewPager pager=(ViewPager)findViewById(R.id.pager);
+      ViewPager pager=findViewById(R.id.pager);
 
       pager.setAdapter(buildAdapter());
     }
   }
 
   private PagerAdapter buildAdapter() {
-    return(new MapPageAdapter(this, getFragmentManager()));
+    return(new MapPageAdapter(this, getSupportFragmentManager()));
   }
 }

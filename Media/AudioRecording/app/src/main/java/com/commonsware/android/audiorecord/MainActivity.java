@@ -8,16 +8,16 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
 */
 
 package com.commonsware.android.audiorecord;
 
-import android.app.Activity;
 import android.media.MediaRecorder;
 import android.media.MediaRecorder.OnErrorListener;
 import android.media.MediaRecorder.OnInfoListener;
+import android.media.MediaScannerConnection;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -27,23 +27,38 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 import java.io.File;
+import static android.Manifest.permission.RECORD_AUDIO;
+import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 
-public class MainActivity extends Activity implements
+public class MainActivity extends AbstractPermissionActivity implements
     OnCheckedChangeListener, OnErrorListener, OnInfoListener {
   private static final String BASENAME="recording.3gp";
-  private MediaRecorder recorder=null;
+  private MediaRecorder recorder;
+  private File output;
 
   @Override
-  public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+  protected String[] getDesiredPermissions() {
+    return(new String[]{RECORD_AUDIO, WRITE_EXTERNAL_STORAGE});
+  }
+
+  @Override
+  protected void onPermissionDenied() {
+    Toast
+      .makeText(this, R.string.msg_sorry, Toast.LENGTH_LONG)
+      .show();
+    finish();
+  }
+
+  @Override
+  public void onReady(Bundle savedInstanceState) {
     setContentView(R.layout.activity_main);
 
     ((ToggleButton)findViewById(R.id.record)).setOnCheckedChangeListener(this);
   }
 
   @Override
-  public void onResume() {
-    super.onResume();
+  public void onStart() {
+    super.onStart();
 
     recorder=new MediaRecorder();
     recorder.setOnErrorListener(this);
@@ -51,21 +66,20 @@ public class MainActivity extends Activity implements
   }
 
   @Override
-  public void onPause() {
+  public void onStop() {
     recorder.release();
     recorder=null;
 
-    super.onPause();
+    super.onStop();
   }
 
   @Override
   public void onCheckedChanged(CompoundButton buttonView,
                                boolean isChecked) {
     if (isChecked) {
-      File output=
-          new File(
-                   Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
-                   BASENAME);
+      output=
+        new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS),
+          BASENAME);
 
       recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
       recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
@@ -94,6 +108,9 @@ public class MainActivity extends Activity implements
     else {
       try {
         recorder.stop();
+
+        MediaScannerConnection
+          .scanFile(this, new String[] {output.getAbsolutePath()}, null, null);
       }
       catch (Exception e) {
         Log.w(getClass().getSimpleName(),

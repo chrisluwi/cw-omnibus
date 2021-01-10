@@ -8,14 +8,14 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
 package com.commonsware.android.sensor.monitor;
 
 import android.annotation.SuppressLint;
-import android.app.ListFragment;
+import android.support.v4.app.ListFragment;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -33,8 +33,8 @@ public class SensorLogFragment extends ListFragment implements
   private boolean isXYZ=false;
 
   @Override
-  public void onActivityCreated(Bundle state) {
-    super.onActivityCreated(state);
+  public void onViewCreated(View view, Bundle state) {
+    super.onViewCreated(view, state);
 
     getListView().setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
   }
@@ -49,8 +49,8 @@ public class SensorLogFragment extends ListFragment implements
     Float[] values=new Float[3];
 
     values[0]=e.values[0];
-    values[1]=e.values[1];
-    values[2]=e.values[2];
+    values[1]=e.values.length>1 ? e.values[1] : 0.0f;
+    values[2]=e.values.length>2 ? e.values[2] : 0.0f;
 
     adapter.add(values);
   }
@@ -61,8 +61,8 @@ public class SensorLogFragment extends ListFragment implements
     setListAdapter(adapter);
   }
 
-  class SensorLogAdapter extends ArrayAdapter<Float[]> {
-    public SensorLogAdapter(SensorLogFragment sensorLogFragment) {
+  private class SensorLogAdapter extends ArrayAdapter<Float[]> {
+    SensorLogAdapter(SensorLogFragment sensorLogFragment) {
       super(sensorLogFragment.getActivity(),
             android.R.layout.simple_list_item_1,
             new ArrayList<Float[]>());

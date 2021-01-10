@@ -8,20 +8,19 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
 package com.commonsware.android.assist.no;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
-import io.karim.MaterialTabs;
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
   private SampleAdapter adapter;
   private ViewPager pager;
 
@@ -30,12 +29,9 @@ public class MainActivity extends Activity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
 
-    pager=(ViewPager)findViewById(R.id.pager);
-    adapter=new SampleAdapter(this, getFragmentManager());
+    pager=findViewById(R.id.pager);
+    adapter=new SampleAdapter(this, getSupportFragmentManager());
     pager.setAdapter(adapter);
-
-    MaterialTabs tabs=(MaterialTabs)findViewById(R.id.tabs);
-    tabs.setViewPager(pager);
   }
 
   @Override

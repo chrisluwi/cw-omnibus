@@ -8,7 +8,7 @@
  OF ANY KIND, either express or implied. See the License for the specific
  language governing permissions and limitations under the License.
 
- From _The Busy Coder's Guide to Android Development_
+ Covered in detail in the book _The Busy Coder's Guide to Android Development_
  https://commonsware.com/Android
  */
 
@@ -22,6 +22,13 @@ public class CanaryApplication extends Application {
   public void onCreate() {
     super.onCreate();
 
+    if (LeakCanary.isInAnalyzerProcess(this)) {
+      // LeakCanary is processing a heap dump here; please do not disturb!
+      return;
+    }
+
     LeakCanary.install(this);
+
+    // do your normal initialization work here
   }
 }

@@ -8,15 +8,17 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
 package com.commonsware.android.ab.search;
 
-import android.app.ListFragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ListFragment;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.Menu;
@@ -47,9 +49,15 @@ public class ActionBarFragment extends ListFragment implements
   private SearchView sv=null;
 
   @Override
-  public void onActivityCreated(Bundle savedInstanceState) {
-    super.onActivityCreated(savedInstanceState);
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
 
+    setHasOptionsMenu(true);
+  }
+
+  @Override
+  public void onViewCreated(@NonNull View view,
+                            @Nullable Bundle savedInstanceState) {
     if (savedInstanceState == null) {
       initAdapter(null);
     }
@@ -57,8 +65,6 @@ public class ActionBarFragment extends ListFragment implements
       initAdapter(savedInstanceState.getStringArrayList(STATE_MODEL));
       initialQuery=savedInstanceState.getCharSequence(STATE_QUERY);
     }
-
-    setHasOptionsMenu(true);
   }
 
   @Override

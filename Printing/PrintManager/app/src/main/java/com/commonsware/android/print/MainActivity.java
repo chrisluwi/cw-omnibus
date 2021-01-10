@@ -8,7 +8,7 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
@@ -45,7 +45,7 @@ public class MainActivity extends Activity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
-    prose=(EditText)findViewById(R.id.prose);
+    prose=findViewById(R.id.prose);
     mgr=(PrintManager)getSystemService(PRINT_SERVICE);
   }
 
@@ -121,7 +121,7 @@ public class MainActivity extends Activity {
 
     print.loadData(tmpl.execute(new TpsReportContext(prose.getText()
                                                           .toString())),
-                   "text/html", "UTF-8");
+                   "text/html; charset=UTF-8", null);
   }
 
   private WebView prepPrintWebView(final String name) {

@@ -8,14 +8,14 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
 package com.commonsware.android.volley;
 
-import android.app.ListFragment;
 import android.os.Bundle;
+import android.support.v4.app.ListFragment;
 import android.text.Html;
 import android.util.Log;
 import android.view.View;
@@ -25,15 +25,15 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
-import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
 import java.util.List;
-import de.greenrobot.event.EventBus;
 
 public class QuestionsFragment extends ListFragment implements
   Response.Listener<SOQuestions>, Response.ErrorListener {
+  public interface Contract {
+    void onQuestion(Item question);
+  }
 
   @Override
   public void onCreate(Bundle savedInstanceState) {
@@ -58,7 +58,7 @@ public class QuestionsFragment extends ListFragment implements
   public void onListItemClick(ListView l, View v, int position, long id) {
     Item item=((ItemsAdapter)getListAdapter()).getItem(position);
 
-    EventBus.getDefault().post(new QuestionClickedEvent(item));
+    ((Contract)getActivity()).onQuestion(item);
   }
 
   @Override
@@ -83,7 +83,7 @@ public class QuestionsFragment extends ListFragment implements
     public View getView(int position, View convertView, ViewGroup parent) {
       View row=super.getView(position, convertView, parent);
       Item item=getItem(position);
-      ImageView icon=(ImageView)row.findViewById(R.id.icon);
+      ImageView icon=row.findViewById(R.id.icon);
 
       VolleyManager
         .get(getActivity())
@@ -91,7 +91,7 @@ public class QuestionsFragment extends ListFragment implements
           R.drawable.owner_placeholder,
           R.drawable.owner_error);
 
-      TextView title=(TextView)row.findViewById(R.id.title);
+      TextView title=row.findViewById(R.id.title);
 
       title.setText(Html.fromHtml(getItem(position).title));
 

@@ -8,7 +8,7 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
@@ -23,8 +23,8 @@ import android.view.MenuItem;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
@@ -52,8 +52,8 @@ public class MainActivity extends AbstractMapActivity implements
     if (readyToGo()) {
       setContentView(R.layout.activity_main);
 
-      MapFragment mapFrag=
-          (MapFragment)getFragmentManager().findFragmentById(R.id.map);
+      SupportMapFragment mapFrag=
+          (SupportMapFragment)getSupportFragmentManager().findFragmentById(R.id.map);
 
       if (savedInstanceState == null) {
         needsInit=true;

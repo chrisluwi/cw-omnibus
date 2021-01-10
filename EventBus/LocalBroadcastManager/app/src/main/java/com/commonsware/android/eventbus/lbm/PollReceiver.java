@@ -8,7 +8,7 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
@@ -20,16 +20,15 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
-import com.commonsware.cwac.wakeful.WakefulIntentService;
 
 public class PollReceiver extends BroadcastReceiver {
-  private static final int PERIOD=15000; // 15 seconds
-  private static final int INITIAL_DELAY=1000; // 1 second
+  private static final int PERIOD=60000; // 1 minute
+  private static final int INITIAL_DELAY=5000; // 5 seconds
 
   @Override
   public void onReceive(Context ctxt, Intent i) {
     if (i.getAction() == null) {
-      WakefulIntentService.sendWakefulWork(ctxt, ScheduledService.class);
+      ScheduledService.enqueueWork(ctxt);
     }
     else {
       scheduleAlarms(ctxt);

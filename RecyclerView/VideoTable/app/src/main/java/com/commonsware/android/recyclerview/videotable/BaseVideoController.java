@@ -8,7 +8,7 @@
  OF ANY KIND, either express or implied. See the License for the specific
  language governing permissions and limitations under the License.
 
- From _The Busy Coder's Guide to Android Development_
+ Covered in detail in the book _The Busy Coder's Guide to Android Development_
  https://commonsware.com/Android
  */
 
@@ -24,7 +24,7 @@ import android.view.View;
 
 abstract class BaseVideoController extends RecyclerView.ViewHolder
     implements View.OnClickListener {
-  private Uri videoUri=null;
+  protected Uri videoUri=null;
   private String videoMimeType=null;
 
   BaseVideoController(View cell) {

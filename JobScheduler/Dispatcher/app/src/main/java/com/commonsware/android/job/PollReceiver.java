@@ -8,7 +8,7 @@
  OF ANY KIND, either express or implied. See the License for the specific
  language governing permissions and limitations under the License.
 
- From _The Busy Coder's Guide to Android Development_
+ Covered in detail in the book _The Busy Coder's Guide to Android Development_
  https://commonsware.com/Android
  */
 
@@ -16,19 +16,20 @@ package com.commonsware.android.job;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
-import android.support.v4.content.WakefulBroadcastReceiver;
 
-public class PollReceiver extends WakefulBroadcastReceiver {
+public class PollReceiver extends BroadcastReceiver {
   static final String EXTRA_PERIOD="period";
   static final String EXTRA_IS_DOWNLOAD="isDownload";
 
   @Override
   public void onReceive(Context ctxt, Intent i) {
     boolean isDownload=i.getBooleanExtra(EXTRA_IS_DOWNLOAD, false);
-    startWakefulService(ctxt,
+
+    DemoScheduledService.enqueueWork(ctxt,
         new Intent(ctxt, DemoScheduledService.class)
             .putExtra(EXTRA_IS_DOWNLOAD, isDownload));
 

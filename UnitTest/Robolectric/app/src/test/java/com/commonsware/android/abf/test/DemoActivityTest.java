@@ -8,35 +8,34 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
 package com.commonsware.android.abf.test;
 
-import android.view.KeyEvent;
 import android.widget.ListView;
 import com.commonsware.android.abf.ActionBarFragmentActivity;
-import com.commonsware.android.abf.BuildConfig;
 import junit.framework.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
-import org.robolectric.RobolectricGradleTestRunner;
+import org.robolectric.RobolectricTestRunner;
 import org.robolectric.annotation.Config;
+import static android.os.Build.VERSION_CODES.LOLLIPOP;
 
-@RunWith(RobolectricGradleTestRunner.class)
-@Config(constants=BuildConfig.class, sdk=16)
+@RunWith(RobolectricTestRunner.class)
+@Config(sdk=LOLLIPOP)
 public class DemoActivityTest {
   private ListView list=null;
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     ActionBarFragmentActivity activity=
       Robolectric.setupActivity(ActionBarFragmentActivity.class);
 
-    list=(ListView)activity.findViewById(android.R.id.list);
+    list=activity.findViewById(android.R.id.list);
   }
 
   @Test

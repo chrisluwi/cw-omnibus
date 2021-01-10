@@ -8,32 +8,33 @@
  OF ANY KIND, either express or implied. See the License for the specific
  language governing permissions and limitations under the License.
 
- From _The Busy Coder's Guide to Android Development_
+ Covered in detail in the book _The Busy Coder's Guide to Android Development_
  https://commonsware.com/Android
  */
 
 package com.commonsware.android.backup;
 
-import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.hardware.Camera;
+import android.support.annotation.NonNull;
+import android.support.v4.app.JobIntentService;
 import android.util.Log;
 import com.squareup.okhttp.MediaType;
 import com.squareup.okhttp.OkHttpClient;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.RequestBody;
 import com.squareup.okhttp.Response;
+import org.greenrobot.eventbus.EventBus;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
-import de.greenrobot.event.EventBus;
 
-public class BackupService extends IntentService {
+public class BackupService extends JobIntentService {
+  private static final int UNIQUE_JOB_ID=1338;
   static final OkHttpClient OKHTTP_CLIENT=new OkHttpClient();
   static final String ZIP_PREFIX_FILES="files/";
   static final String ZIP_PREFIX_PREFS="shared_prefs/";
@@ -56,12 +57,13 @@ public class BackupService extends IntentService {
       "shared_prefs"));
   }
 
-  public BackupService() {
-    super("BackupService");
+  static void enqueueWork(Context ctxt) {
+    enqueueWork(ctxt, BackupService.class, UNIQUE_JOB_ID,
+      new Intent(ctxt, BackupService.class));
   }
 
   @Override
-  protected void onHandleIntent(Intent intent) {
+  public void onHandleWork(@NonNull Intent i) {
     try {
       File backup=buildBackup();
 

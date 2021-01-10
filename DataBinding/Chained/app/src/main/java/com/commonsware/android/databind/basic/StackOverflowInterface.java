@@ -8,21 +8,21 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
 package com.commonsware.android.databind.basic;
 
-import retrofit.Callback;
-import retrofit.http.GET;
-import retrofit.http.Path;
-import retrofit.http.Query;
+import retrofit2.Call;
+import retrofit2.http.GET;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface StackOverflowInterface {
   @GET("/2.1/questions?order=desc&sort=creation&site=stackoverflow")
-  void questions(@Query("tagged") String tags, Callback<SOQuestions> cb);
+  Call<SOQuestions> questions(@Query("tagged") String tags);
 
   @GET("/2.1/questions/{ids}?site=stackoverflow")
-  void update(@Path("ids") String questionIds, Callback<SOQuestions> cb);
+  Call<SOQuestions> update(@Path("ids") String tags);
 }

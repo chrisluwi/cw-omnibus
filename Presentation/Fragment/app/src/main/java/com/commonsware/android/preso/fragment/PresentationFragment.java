@@ -8,17 +8,17 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
 package com.commonsware.android.preso.fragment;
 
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.app.Presentation;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
 import android.view.Display;
 
 abstract public class PresentationFragment extends DialogFragment {
@@ -49,7 +49,7 @@ abstract public class PresentationFragment extends DialogFragment {
     return(display);
   }
 
-  protected Context getContext() {
+  public Context getContext() {
     if (preso != null) {
       return(preso.getContext());
     }

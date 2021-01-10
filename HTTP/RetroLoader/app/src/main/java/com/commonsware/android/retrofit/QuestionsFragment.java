@@ -8,16 +8,16 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
 package com.commonsware.android.retrofit;
 
-import android.app.ListFragment;
-import android.app.LoaderManager;
-import android.content.Loader;
 import android.os.Bundle;
+import android.support.v4.app.ListFragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.text.Html;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,10 +25,13 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 import java.util.List;
-import de.greenrobot.event.EventBus;
 
 public class QuestionsFragment extends ListFragment implements
     LoaderManager.LoaderCallbacks<SOQuestions> {
+  public interface Contract {
+    void onQuestion(Item question);
+  }
+
   @Override
   public void onViewCreated(View view, Bundle savedInstanceState) {
     super.onViewCreated(view, savedInstanceState);
@@ -40,7 +43,7 @@ public class QuestionsFragment extends ListFragment implements
   public void onListItemClick(ListView l, View v, int position, long id) {
     Item item=((ItemsAdapter)getListAdapter()).getItem(position);
 
-    EventBus.getDefault().post(new QuestionClickedEvent(item));
+    ((Contract)getActivity()).onQuestion(item);
   }
 
   @Override
@@ -67,7 +70,7 @@ public class QuestionsFragment extends ListFragment implements
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
       View row=super.getView(position, convertView, parent);
-      TextView title=(TextView)row.findViewById(android.R.id.text1);
+      TextView title=row.findViewById(android.R.id.text1);
 
       title.setText(Html.fromHtml(getItem(position).title));
 

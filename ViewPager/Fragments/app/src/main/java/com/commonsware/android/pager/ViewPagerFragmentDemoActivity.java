@@ -8,24 +8,24 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
 package com.commonsware.android.pager;
 
-import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 
-public class ViewPagerFragmentDemoActivity extends Activity {
+public class ViewPagerFragmentDemoActivity extends FragmentActivity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
 
-    ViewPager pager=(ViewPager)findViewById(R.id.pager);
+    ViewPager pager=findViewById(R.id.pager);
 
-    pager.setAdapter(new SampleAdapter(getFragmentManager()));
+    pager.setAdapter(new SampleAdapter(getSupportFragmentManager()));
   }
 }

@@ -8,18 +8,18 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
 package com.commonsware.android.profile.device;
 
-import android.app.Activity;
+import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.os.UserManager;
 import android.widget.Toast;
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -31,7 +31,7 @@ public class MainActivity extends Activity {
       setContentView(R.layout.activity_main);
 
       RestrictionsFragment f=
-          (RestrictionsFragment)getFragmentManager().findFragmentById(R.id.contents);
+          (RestrictionsFragment)getSupportFragmentManager().findFragmentById(R.id.contents);
 
       f.showRestrictions(restrictions);
     }

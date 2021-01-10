@@ -8,13 +8,13 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
 package com.commonsware.android.downloader;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -32,7 +32,7 @@ public class DownloadFragment extends Fragment implements
                            Bundle savedInstanceState) {
     View result=inflater.inflate(R.layout.main, parent, false);
 
-    b=(Button)result.findViewById(R.id.button);
+    b=result.findViewById(R.id.button);
     b.setOnClickListener(this);
 
     return(result);

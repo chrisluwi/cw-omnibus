@@ -8,7 +8,7 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
@@ -29,13 +29,13 @@ public class FilesCPDemo extends Activity {
   private static final String AUTHORITY="com.commonsware.android.cp.v4file";
       
   @Override
-  public void onCreate(Bundle icicle) {
-    super.onCreate(icicle);
+  public void onCreate(Bundle state) {
+    super.onCreate(state);
 
     File f=new File(getFilesDir(), "test.pdf");
 
     if (!f.exists()) {
-      AssetManager assets=getResources().getAssets();
+      AssetManager assets=getAssets();
 
       try {
         copy(assets.open("test.pdf"), f);

@@ -8,7 +8,7 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
 */
 
@@ -55,6 +55,6 @@ public class AppWidget extends AppWidgetProvider {
     updateViews.setOnClickPendingIntent(R.id.right_die, pi);
     updateViews.setOnClickPendingIntent(R.id.background, pi);
     
-    return(updateViews);
+    return updateViews;
   }
 }

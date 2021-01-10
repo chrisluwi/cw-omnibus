@@ -8,7 +8,7 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
@@ -16,21 +16,22 @@ package com.commonsware.android.bitmap.iss;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity {
   @Override
   public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
 
-    ViewPager pager=(ViewPager)findViewById(R.id.pager);
+    ViewPager pager=findViewById(R.id.pager);
 
     pager.setAdapter(buildAdapter());
   }
 
   private PagerAdapter buildAdapter() {
-    return(new SampleAdapter(this, getFragmentManager()));
+    return(new SampleAdapter(this, getSupportFragmentManager()));
   }
 }

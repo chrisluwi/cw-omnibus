@@ -8,7 +8,7 @@
   OF ANY KIND, either express or implied. See the License for the specific
   language governing permissions and limitations under the License.
   
-  From _The Busy Coder's Guide to Android Development_
+  Covered in detail in the book _The Busy Coder's Guide to Android Development_
     https://commonsware.com/Android
  */
 
@@ -24,8 +24,9 @@ import android.support.v4.view.ViewPager;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-import de.greenrobot.event.EventBus;
-import io.karim.MaterialTabs;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 public class MainActivity extends Activity  {
   private static final String PREF_LAST_VISITED="lastVisited";
@@ -37,17 +38,14 @@ public class MainActivity extends Activity  {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.main);
 
-    pager=(ViewPager)findViewById(R.id.pager);
+    pager=findViewById(R.id.pager);
     pager.setAdapter(
       new SampleAdapter(this, getFragmentManager()));
-
-    MaterialTabs tabs=(MaterialTabs)findViewById(R.id.tabs);
-    tabs.setViewPager(pager);
   }
 
   @Override
-  protected void onResume() {
-    super.onResume();
+  protected void onStart() {
+    super.onStart();
 
     EventBus.getDefault().register(this);
 
@@ -57,7 +55,7 @@ public class MainActivity extends Activity  {
   }
 
   @Override
-  protected void onPause() {
+  protected void onStop() {
     EventBus.getDefault().unregister(this);
 
     if (prefs!=null) {
@@ -67,7 +65,7 @@ public class MainActivity extends Activity  {
         .apply();
     }
 
-    super.onPause();
+    super.onStop();
   }
 
   @Override
@@ -80,7 +78,7 @@ public class MainActivity extends Activity  {
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     if (item.getItemId()==R.id.backup) {
-      startService(new Intent(this, BackupService.class));
+      BackupService.enqueueWork(this);
 
       return(true);
     }
@@ -93,19 +91,22 @@ public class MainActivity extends Activity  {
     return(super.onOptionsItemSelected(item));
   }
 
-  public void onEventMainThread(BackupService.BackupCompletedEvent event) {
+  @Subscribe(threadMode =ThreadMode.MAIN)
+  public void onCompleted(BackupService.BackupCompletedEvent event) {
     Toast
       .makeText(this, R.string.msg_backup_completed, Toast.LENGTH_LONG)
       .show();
   }
 
-  public void onEventMainThread(BackupService.BackupFailedEvent event) {
+  @Subscribe(threadMode =ThreadMode.MAIN)
+  public void onFailed(BackupService.BackupFailedEvent event) {
     Toast
       .makeText(this, R.string.msg_backup_failed, Toast.LENGTH_LONG)
       .show();
   }
 
-  public void onEventMainThread(PrefsLoadedEvent event) {
+  @Subscribe(threadMode =ThreadMode.MAIN)
+  public void onPrefsLoaded(PrefsLoadedEvent event) {
     this.prefs=event.prefs;
 
     int lastVisited=prefs.getInt(PREF_LAST_VISITED, -1);

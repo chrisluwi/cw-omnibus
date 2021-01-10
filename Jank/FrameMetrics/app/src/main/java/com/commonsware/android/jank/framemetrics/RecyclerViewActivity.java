@@ -8,16 +8,16 @@
  OF ANY KIND, either express or implied. See the License for the specific
  language governing permissions and limitations under the License.
 
- From _The Busy Coder's Guide to Android Development_
+ Covered in detail in the book _The Busy Coder's Guide to Android Development_
  https://commonsware.com/Android
  */
 
 package com.commonsware.android.jank.framemetrics;
 
-import android.app.Activity;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 
-public class RecyclerViewActivity extends Activity {
+public class RecyclerViewActivity extends FragmentActivity {
   private RecyclerView rv=null;
 
   public void setAdapter(RecyclerView.Adapter adapter) {

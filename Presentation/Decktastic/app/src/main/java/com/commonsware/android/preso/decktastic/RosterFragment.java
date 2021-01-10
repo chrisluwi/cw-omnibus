@@ -8,7 +8,7 @@
  OF ANY KIND, either express or implied. See the License for the specific
  language governing permissions and limitations under the License.
 
- From _The Busy Coder's Guide to Android Development_
+ Covered in detail in the book _The Busy Coder's Guide to Android Development_
  https://commonsware.com/Android
  */
 
@@ -97,11 +97,11 @@ public class RosterFragment extends BrowseFragment
       super();
 
       this.ctxt=ctxt.getApplicationContext();
-      android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
     }
 
     @Override
     public void run() {
+      android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_BACKGROUND);
       PresoRoster.getInstance().load(ctxt);
 
       EventBus.getDefault().postSticky(new RosterLoadedEvent());

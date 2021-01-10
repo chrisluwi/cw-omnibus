@@ -8,29 +8,34 @@
  OF ANY KIND, either express or implied. See the License for the specific
  language governing permissions and limitations under the License.
 
- From _The Busy Coder's Guide to Android Development_
+ Covered in detail in the book _The Busy Coder's Guide to Android Development_
  https://commonsware.com/Android
  */
 
 package com.commonsware.android.backup;
 
-import android.app.IntentService;
+import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
+import android.support.v4.app.JobIntentService;
 import android.util.Log;
 import com.squareup.okhttp.Request;
 import com.squareup.okhttp.Response;
+import org.greenrobot.eventbus.EventBus;
 import java.io.File;
-import de.greenrobot.event.EventBus;
 import okio.BufferedSink;
 import okio.Okio;
 
-public class RestoreService extends IntentService {
-  public RestoreService() {
-    super("RestoreService");
+public class RestoreService extends JobIntentService {
+  private static final int UNIQUE_JOB_ID=1337;
+
+  static void enqueueWork(Context ctxt) {
+    enqueueWork(ctxt, RestoreService.class, UNIQUE_JOB_ID,
+      new Intent(ctxt, RestoreService.class));
   }
 
   @Override
-  protected void onHandleIntent(Intent i) {
+  public void onHandleWork(@NonNull Intent i) {
     Request request=new Request.Builder()
       .url(i.getData().toString())
       .build();
